@@ -7,12 +7,20 @@ import { setupWhiteheadPageFromDocument } from "./integrated/whitehead/whitehead
 function initProjectsTools(): void {
   const infiniteRoot = document.getElementById("project-infinite-mount");
   if (infiniteRoot) {
-    mountInfinitePlotter(infiniteRoot);
+    try {
+      mountInfinitePlotter(infiniteRoot);
+    } catch (err) {
+      console.error("Infinite Cayley plotter failed to initialize:", err);
+    }
   }
 
   const whiteheadRoot = document.getElementById("project-whitehead-mount");
   if (whiteheadRoot) {
-    setupWhiteheadPageFromDocument(whiteheadRoot);
+    try {
+      setupWhiteheadPageFromDocument(whiteheadRoot);
+    } catch (err) {
+      console.error("Whitehead folding UI failed to initialize:", err);
+    }
   }
 
   const f2Root = document.getElementById("project-f2-mount");
@@ -32,45 +40,49 @@ function initProjectsTools(): void {
     const splicePanel = f2Root.querySelector("#f2-splice-panel");
     const spliceCaption = f2Root.querySelector("#f2-splice-caption");
 
-    if (
-      !(canvas instanceof HTMLCanvasElement) ||
-      !(wordInput instanceof HTMLInputElement) ||
-      !(depthSlider instanceof HTMLInputElement) ||
-      !(depthValue instanceof HTMLElement) ||
-      !(powerSlider instanceof HTMLInputElement) ||
-      !(powerValue instanceof HTMLElement) ||
-      !(spliceToggle instanceof HTMLInputElement) ||
-      !(warningEl instanceof HTMLElement) ||
-      !(whiteheadSvg instanceof SVGSVGElement) ||
-      !(whiteheadPanel instanceof HTMLElement) ||
-      !(whiteheadCaption instanceof HTMLElement) ||
-      !(spliceSvg instanceof SVGSVGElement) ||
-      !(splicePanel instanceof HTMLElement) ||
-      !(spliceCaption instanceof HTMLElement)
-    ) {
-      console.error("F₂ tool: missing required DOM nodes.");
-      return;
-    }
+    try {
+      if (
+        !(canvas instanceof HTMLCanvasElement) ||
+        !(wordInput instanceof HTMLInputElement) ||
+        !(depthSlider instanceof HTMLInputElement) ||
+        !(depthValue instanceof HTMLElement) ||
+        !(powerSlider instanceof HTMLInputElement) ||
+        !(powerValue instanceof HTMLElement) ||
+        !(spliceToggle instanceof HTMLInputElement) ||
+        !(warningEl instanceof HTMLElement) ||
+        !(whiteheadSvg instanceof SVGSVGElement) ||
+        !(whiteheadPanel instanceof HTMLElement) ||
+        !(whiteheadCaption instanceof HTMLElement) ||
+        !(spliceSvg instanceof SVGSVGElement) ||
+        !(splicePanel instanceof HTMLElement) ||
+        !(spliceCaption instanceof HTMLElement)
+      ) {
+        console.error("F₂ tool: missing required DOM nodes.");
+        return;
+      }
 
-    bindF2Section(
-      {
-        canvas,
-        wordInput,
-        depthSlider,
-        depthValue,
-        powerSlider,
-        powerValue,
-        spliceToggle,
-        warningEl,
-        whiteheadSvg,
-        whiteheadPanel,
-        whiteheadCaption,
-        spliceSvg,
-        splicePanel,
-        spliceCaption,
-      },
-      createF2UiState(),
-    );
+      bindF2Section(
+        {
+          canvas,
+          wordInput,
+          depthSlider,
+          depthValue,
+          powerSlider,
+          powerValue,
+          spliceToggle,
+          warningEl,
+          whiteheadSvg,
+          whiteheadPanel,
+          whiteheadCaption,
+          spliceSvg,
+          splicePanel,
+          spliceCaption,
+        },
+        createF2UiState(),
+      );
+    } catch (err) {
+      console.error("F₂ line-pattern tool failed to initialize:", err);
+    }
   }
 }
 
