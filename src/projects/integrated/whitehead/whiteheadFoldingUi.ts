@@ -4,6 +4,7 @@ import type {
   WhiteheadSnapshot,
 } from "./whiteheadFolding";
 import {
+  RANDOM_UNIMODULAR_MAX_PETAL_LENGTH,
   WHITEHEAD_MAX_RANK,
   WHITEHEAD_MIN_RANK,
   labelToString,
@@ -392,9 +393,21 @@ export function bindWhiteheadFoldingPage(elements: WhiteheadElements): void {
     state.run = null;
     state.stateIndex = 0;
     const rank = parseInt(elements.rankSelect.value, 10);
+    if (
+      !Number.isFinite(rank) ||
+      rank < WHITEHEAD_MIN_RANK ||
+      rank > WHITEHEAD_MAX_RANK
+    ) {
+      return;
+    }
     const words = randomUnimodularPetalWords(rank);
+    const maxLen = RANDOM_UNIMODULAR_MAX_PETAL_LENGTH;
+    if (!words.every((w) => w.length >= 1 && w.length <= maxLen)) {
+      console.error("randomUnimodularPetalWords produced a word outside the length cap");
+      return;
+    }
     const inputs = currentWordInputs(elements.wordsContainer);
-    for (let i = 0; i < words.length; i++) {
+    for (let i = 0; i < rank; i++) {
       const row = inputs[i];
       if (row) row.value = words[i] ?? "";
     }
