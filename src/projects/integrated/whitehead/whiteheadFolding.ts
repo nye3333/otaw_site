@@ -516,16 +516,13 @@ function sampleUnimodularMatrix(n: number, steps: number, rng: () => number): nu
   return M;
 }
 
-function exponentWordLengthFromRow(row: number[], rank: number): number {
-  let s = 0;
-  for (let j = 0; j < rank; j++) s += Math.abs(row[j]!);
-  return s;
-}
-
 function exponentRowToWord(row: number[], rank: number): string {
   let out = "";
   for (let j = 0; j < rank; j++) {
     const e = row[j]!;
+    if (!Number.isFinite(e) || !Number.isInteger(e)) {
+      throw new Error("exponentRowToWord: expected integer exponents");
+    }
     const ch = GENERATOR_NAMES[j]!;
     if (e > 0) out += ch.repeat(e);
     else if (e < 0) out += ch.toUpperCase().repeat(-e);
@@ -533,16 +530,17 @@ function exponentRowToWord(row: number[], rank: number): string {
   return out;
 }
 
-function rowsWithinPetalLengthLimit(
-  M: number[][],
-  rank: number,
-  maxLen: number,
-): boolean {
+function matrixEntriesAreIntegers(M: number[][]): boolean {
   for (const row of M) {
-    const len = exponentWordLengthFromRow(row, rank);
-    if (len === 0 || len > maxLen) return false;
+    for (const x of row) {
+      if (!Number.isFinite(x) || !Number.isInteger(x)) return false;
+    }
   }
   return true;
+}
+
+function petalWordsWithinLengthLimit(petalWords: string[], maxLen: number): boolean {
+  return petalWords.every((w) => w.length >= 1 && w.length <= maxLen);
 }
 
 /**
@@ -560,16 +558,25 @@ export function randomUnimodularPetalWords(
   const maxLen = RANDOM_UNIMODULAR_MAX_PETAL_LENGTH;
   const maxAttempts = 800;
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const steps = randomIntInclusive(rng, 5, 36);
+    const steps = randomIntInclusive(rng, 0, 28);
     const M = sampleUnimodularMatrix(rank, steps, rng);
-    if (!rowsWithinPetalLengthLimit(M, rank, maxLen)) continue;
+    if (!matrixEntriesAreIntegers(M)) continue;
 
-    const petalWords = M.map((row) => exponentRowToWord(row, rank));
+    let petalWords: string[];
+    try {
+      petalWords = M.map((row) => exponentRowToWord(row, rank));
+    } catch {
+      continue;
+    }
+
+    if (!petalWordsWithinLengthLimit(petalWords, maxLen)) continue;
+
     const checked = validateWhiteheadInput({ rank, petalWords });
     if (!checked.ok) continue;
     const ab = abelianizationMatrix(rank, checked.parsedWords);
     const det = determinantInteger(ab);
     if (Math.abs(det) !== 1) continue;
+
     return petalWords;
   }
   throw new Error(
