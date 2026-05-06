@@ -474,6 +474,110 @@ function determinantInteger(matrix: number[][]): number {
   return Number(detBig);
 }
 
+export type RandomUnimodularPetalWordsOptions = {
+  /** Random walk steps when sampling from GL(n,Z); default 80. */
+  matrixSteps?: number;
+  /** Commutator gadgets [g,h]=ghG^{-1}H^{-1} appended per petal; default 28. */
+  commutatorGadgetsPerPetal?: number;
+};
+
+function randomIntInclusive(rng: () => number, min: number, max: number): number {
+  return min + Math.floor(rng() * (max - min + 1));
+}
+
+/** Deterministic unimodular sample via elementary row ops from I (determinant ±1). */
+function sampleUnimodularMatrix(n: number, steps: number, rng: () => number): number[][] {
+  const M: number[][] = Array.from({ length: n }, (_, i) =>
+    Array.from({ length: n }, (_, j) => (i === j ? 1 : 0)),
+  );
+  const kChoices = [-2, -1, 1, 2];
+  for (let s = 0; s < steps; s++) {
+    const op = randomIntInclusive(rng, 0, n >= 2 ? 2 : 1);
+    if (op === 0) {
+      let i = randomIntInclusive(rng, 0, n - 1);
+      let j = randomIntInclusive(rng, 0, n - 1);
+      while (j === i) j = randomIntInclusive(rng, 0, n - 1);
+      const k = kChoices[randomIntInclusive(rng, 0, kChoices.length - 1)]!;
+      const rowJ = M[j]!;
+      for (let c = 0; c < n; c++) {
+        M[i]![c] += k * rowJ[c]!;
+      }
+    } else if (op === 1 && n >= 2) {
+      let i = randomIntInclusive(rng, 0, n - 1);
+      let j = randomIntInclusive(rng, 0, n - 1);
+      while (j === i) j = randomIntInclusive(rng, 0, n - 1);
+      const tmp = M[i]!;
+      M[i] = M[j]!;
+      M[j] = tmp;
+    } else {
+      const i = randomIntInclusive(rng, 0, n - 1);
+      M[i] = M[i]!.map((x) => -x);
+    }
+  }
+  const det = determinantInteger(M);
+  if (Math.abs(det) !== 1) {
+    throw new Error(`Internal error: expected unimodular matrix, det=${det}`);
+  }
+  return M;
+}
+
+function exponentRowToWord(row: number[], rank: number): string {
+  let out = "";
+  for (let j = 0; j < rank; j++) {
+    const e = row[j]!;
+    const ch = GENERATOR_NAMES[j]!;
+    if (e > 0) out += ch.repeat(e);
+    else if (e < 0) out += ch.toUpperCase().repeat(-e);
+  }
+  return out;
+}
+
+/** Commutator [g_i,g_j] as ghGH (positive then inverse letters), trivial in abelianization. */
+function commutatorGadget(rank: number, rng: () => number): string {
+  let i = randomIntInclusive(rng, 0, rank - 1);
+  let j = randomIntInclusive(rng, 0, rank - 1);
+  while (j === i) j = randomIntInclusive(rng, 0, rank - 1);
+  const gi = GENERATOR_NAMES[i]!;
+  const gj = GENERATOR_NAMES[j]!;
+  return `${gi}${gj}${gi.toUpperCase()}${gj.toUpperCase()}`;
+}
+
+/**
+ * Random petal words whose abelianization has determinant ±1 (GL(n,Z) automorphism candidate on Z^n).
+ * This does not certify a free-group automorphism.
+ */
+export function randomUnimodularPetalWords(
+  rank: number,
+  rng: () => number = Math.random,
+  options: RandomUnimodularPetalWordsOptions = {},
+): string[] {
+  if (rank < WHITEHEAD_MIN_RANK || rank > WHITEHEAD_MAX_RANK) {
+    throw new Error(`rank must be between ${WHITEHEAD_MIN_RANK} and ${WHITEHEAD_MAX_RANK}`);
+  }
+  const matrixSteps = options.matrixSteps ?? 80;
+  const gadgets = options.commutatorGadgetsPerPetal ?? 28;
+  const M = sampleUnimodularMatrix(rank, matrixSteps, rng);
+  const petalWords: string[] = [];
+  for (let i = 0; i < rank; i++) {
+    let w = exponentRowToWord(M[i]!, rank);
+    for (let g = 0; g < gadgets; g++) {
+      w += commutatorGadget(rank, rng);
+    }
+    petalWords.push(w);
+  }
+
+  const checked = validateWhiteheadInput({ rank, petalWords });
+  if (!checked.ok) {
+    throw new Error(`randomUnimodularPetalWords: ${checked.error}`);
+  }
+  const ab = abelianizationMatrix(rank, checked.parsedWords);
+  const det = determinantInteger(ab);
+  if (Math.abs(det) !== 1) {
+    throw new Error(`randomUnimodularPetalWords: expected |det|===1, got ${det}`);
+  }
+  return petalWords;
+}
+
 type Branding = {
   treeEdges: Set<number>;
   complementEdgeIds: number[];
