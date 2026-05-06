@@ -1,0 +1,5 @@
+.DS_Store
+To_be_converted/
+
+node_modules/
+dist/
