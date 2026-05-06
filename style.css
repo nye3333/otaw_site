@@ -20,8 +20,6 @@
 
 html {
     scroll-behavior: smooth;
-    /* Page fill lives on html so fixed .video-bg (often z-index: 0) isn't covered by body's paint layer. */
-    background-color: var(--color-bg);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -36,7 +34,7 @@ body {
     font-size: var(--font-size-body);
     line-height: var(--line-height-body);
     color: var(--color-text);
-    background-color: transparent;
+    background-color: var(--color-bg);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -45,11 +43,11 @@ body {
     color: #fafafa;
 }
 
-/* Fixed ambient video — stack at 0 so it paints above html bg but below content (z-index 3+). */
+/* Fixed ambient video */
 .video-bg {
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: -1;
     overflow: hidden;
     pointer-events: none;
 }
