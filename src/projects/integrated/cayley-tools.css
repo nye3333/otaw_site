@@ -1,0 +1,396 @@
+/* Scoped styles for embedded Cayley tools on the Projects page */
+
+.project-tool-mount--whitehead {
+  background: rgb(4, 3, 44);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.project-tool-mount--whitehead #whitehead-panel {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.whitehead-log-heading {
+  margin: 0.5em 0 0.35em;
+  font-size: 0.95em;
+  color: #01fdc7;
+}
+
+.whitehead-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55em;
+  margin-bottom: 0.75em;
+}
+
+.whitehead-controls select,
+.whitehead-controls button,
+.whitehead-word-input {
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.9em;
+  border-radius: 0.45em;
+}
+
+.whitehead-controls select {
+  background: #000;
+  color: #fff;
+  border: 1px solid #01fdc7;
+  padding: 0.3em 0.45em;
+}
+
+.whitehead-controls button {
+  border: 1px solid #01fdc7;
+  background: transparent;
+  color: #01fdc7;
+  padding: 0.35em 0.55em;
+  cursor: pointer;
+}
+
+.whitehead-controls button:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+#whitehead-words {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+  gap: 0.45em 0.8em;
+  max-width: 70em;
+  margin-bottom: 0.7em;
+}
+
+.whitehead-word-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+}
+
+.whitehead-word-row label {
+  color: #f765fc;
+  min-width: 3.8em;
+}
+
+.whitehead-word-input {
+  background: #000;
+  color: #fff;
+  border: 1px solid rgba(247, 101, 252, 0.8);
+  padding: 0.33em 0.5em;
+  width: 100%;
+}
+
+#whitehead-status,
+#whitehead-step {
+  min-height: 1.25em;
+  margin-bottom: 0.35em;
+  font-size: 0.85em;
+}
+
+#whitehead-status {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+#whitehead-step {
+  color: rgba(1, 253, 198, 0.95);
+}
+
+#whitehead-diagnostic {
+  min-height: 1.25em;
+  margin-bottom: 0.45em;
+  font-size: 0.84em;
+  color: rgba(255, 228, 125, 0.95);
+}
+
+#whitehead-figure-wrap {
+  margin: 0.65em 0 0.85em;
+  border: 1px solid rgba(1, 253, 198, 0.35);
+  border-radius: 0.45em;
+  background: rgb(3, 2, 56);
+  width: 100%;
+  max-width: 100%;
+}
+
+#whitehead-svg {
+  display: block;
+  width: 100%;
+  height: min(72vh, 580px);
+}
+
+.whitehead-edge-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.58);
+  stroke-width: 2;
+}
+
+.whitehead-edge-path.is-active {
+  stroke: rgba(255, 220, 90, 0.96);
+  stroke-width: 3.6;
+}
+
+.whitehead-edge-label {
+  fill: rgba(255, 255, 255, 0.86);
+  text-anchor: middle;
+  font-size: 12px;
+}
+
+.whitehead-edge-label.is-active {
+  fill: rgba(255, 233, 141, 0.98);
+  font-weight: 700;
+}
+
+.whitehead-vertex-dot {
+  fill: #01fdc7;
+  stroke: rgba(2, 40, 70, 0.85);
+  stroke-width: 1.2;
+}
+
+.whitehead-vertex-label {
+  fill: rgba(255, 255, 255, 0.82);
+  font-size: 11px;
+}
+
+#whitehead-log {
+  margin: 0.35em 0 0;
+  padding-left: 1.4em;
+  max-width: 72em;
+  font-size: 0.84em;
+  line-height: 1.45;
+}
+
+/* F₂ line pattern */
+.project-tool-mount--f2 {
+  background: rgb(8, 6, 42);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.project-tool-mount--f2 #f2-tree-panel {
+  padding: 0.85em 1.2em 1.2em;
+  box-sizing: border-box;
+}
+
+.project-tool-mount--f2 .f2-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em 1.25em;
+  align-items: center;
+  margin-bottom: 0.65em;
+}
+
+#f2-word-input {
+  background: #000;
+  color: #fff;
+  border: 1px solid #01fdc7;
+  border-radius: 0.4em;
+  padding: 0.35em 0.5em;
+  font-family: inherit;
+  min-width: 14em;
+}
+
+#f2-depth-slider {
+  width: 12em;
+  accent-color: #01fdc7;
+}
+
+#f2-power-slider {
+  width: 12em;
+  accent-color: #01fdc7;
+}
+
+#f2-warning {
+  font-size: 0.82em;
+  min-height: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+#f2-canvas-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  align-items: flex-start;
+}
+
+#f2-canvas {
+  display: block;
+  width: min(100%, 720px);
+  height: min(68vh, 520px);
+  cursor: grab;
+  touch-action: none;
+  border: 1px solid rgba(1, 253, 198, 0.35);
+  border-radius: 0.35em;
+  background: rgb(3, 2, 56);
+}
+
+#f2-canvas:active {
+  cursor: grabbing;
+}
+
+#f2-whitehead-panel {
+  flex: 1;
+  min-width: 200px;
+  max-width: 22em;
+  padding: 0.65em 0.85em;
+  border: 1px solid rgba(247, 101, 252, 0.45);
+  border-radius: 0.35em;
+  background: rgba(0, 10, 40, 0.45);
+}
+
+#f2-whitehead-panel h3 {
+  margin: 0 0 0.4em;
+  font-size: 0.95em;
+  color: #f765fc;
+}
+
+#f2-whitehead-caption {
+  font-size: 0.78em;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.5em;
+}
+
+#f2-whitehead-svg {
+  display: block;
+  margin: 0 auto;
+}
+
+#f2-splice-panel {
+  flex: 1;
+  min-width: 220px;
+  max-width: 24em;
+  padding: 0.65em 0.85em;
+  border: 1px solid rgba(247, 101, 252, 0.45);
+  border-radius: 0.35em;
+  background: rgba(0, 10, 40, 0.45);
+}
+
+#f2-splice-panel h3 {
+  margin: 0 0 0.4em;
+  font-size: 0.95em;
+  color: #f765fc;
+}
+
+#f2-splice-caption {
+  font-size: 0.78em;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.5em;
+}
+
+/* Infinite plotter */
+.cayley-infinite-layout {
+  display: grid;
+  grid-template-columns: minmax(15rem, 1.1fr) minmax(18rem, 2.6fr);
+  min-height: 560px;
+  background: rgb(3, 2, 56);
+  color: #fff;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cayley-infinite-sidebar {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: auto;
+}
+
+.cayley-infinite-groups-header {
+  padding: 0.5em 0.75em;
+  font-size: 0.85em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  color: #01fdc7;
+}
+
+.cayley-infinite-groups-list {
+  flex: 1;
+}
+
+.cayley-group-listing {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  display: grid;
+  grid-template-columns: 28% auto;
+  cursor: pointer;
+}
+
+.cayley-group-listing:hover {
+  background-color: rgba(181, 23, 112, 0.35);
+}
+
+.cayley-group-listing-selected {
+  background-color: rgba(1, 118, 107, 0.45);
+}
+
+.cayley-group-listing > p {
+  margin: 0;
+  padding: 0.45em 0.5em;
+}
+
+.cayley-group-listing-name {
+  font-size: 1.05em;
+  text-align: center;
+}
+
+.cayley-group-listing-desc {
+  font-size: 0.82em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.cayley-infinite-controls {
+  padding: 0.55em 0.75em;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.cayley-depth-label {
+  display: block;
+  margin-bottom: 0.35em;
+  font-size: 0.88em;
+}
+
+.cayley-infinite-controls input[type="range"] {
+  width: calc(100% - 0.5rem);
+  accent-color: #01fdc7;
+}
+
+.cayley-infinite-plot {
+  position: relative;
+  min-height: 520px;
+  background: rgb(3, 2, 56);
+}
+
+.cayley-infinite-plot [data-role="plot-invisible"] {
+  position: absolute;
+  inset: 0;
+}
+
+.cayley-infinite-gui {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  z-index: 4;
+}
+
+.cayley-infinite-gui,
+.cayley-infinite-gui * {
+  font-size: 0.92em;
+}
+
+@media (max-width: 900px) {
+  .cayley-infinite-layout {
+    grid-template-columns: 1fr;
+    min-height: 480px;
+  }
+
+  .cayley-infinite-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    max-height: 280px;
+  }
+
+  .cayley-infinite-plot {
+    min-height: 420px;
+  }
+
+  #whitehead-svg {
+    height: min(55vh, 480px);
+  }
+}
