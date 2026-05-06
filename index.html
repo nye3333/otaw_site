@@ -64,6 +64,20 @@
             fig.style.top = top + 'px';
             fig.style.right = 'auto';
         });
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var W = host.clientWidth, H = host.clientHeight;
+                host.querySelectorAll('.float-fig').forEach(function (fig) {
+                    if (!fig.style.left) return;
+                    var nx = parseFloat(fig.style.left), ny = parseFloat(fig.style.top);
+                    if (!isFinite(nx) || !isFinite(ny)) return;
+                    var fw = fig.offsetWidth || 48, fh = fig.offsetHeight || 48;
+                    var maxX = Math.max(0, W - fw), maxY = Math.max(0, H - fh);
+                    fig.style.left = Math.max(0, Math.min(nx, maxX)) + 'px';
+                    fig.style.top = Math.max(0, Math.min(ny, maxY)) + 'px';
+                });
+            });
+        });
     })();
     </script>
 

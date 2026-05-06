@@ -65,7 +65,7 @@ body {
     }
 }
 
-/* Layout: left-weighted column — below .floating-videos (z-index: 4) so floats stay draggable. */
+/* Layout: left-weighted column — below .floating-videos (high z-index) so tool UIs can't cover floats. */
 .site-header,
 .site-main,
 .site-footer {
@@ -208,7 +208,7 @@ body {
 .floating-videos {
     position: fixed;
     inset: 0;
-    z-index: 4;
+    z-index: 50;
     pointer-events: none;
     overflow: hidden;
     opacity: 0;
@@ -244,7 +244,7 @@ body {
     height: auto;
     object-fit: cover;
     border-radius: 2px;
-    opacity: 0.45;
+    opacity: 0.58;
     vertical-align: middle;
     pointer-events: none;
 }
