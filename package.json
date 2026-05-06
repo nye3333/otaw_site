@@ -1,0 +1,22 @@
+{
+  "name": "otaw-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "3d-force-graph": "^1.76.3",
+    "dat.gui": "^0.7.9",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "@types/dat.gui": "^0.7.13",
+    "@types/three": "^0.174.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.7"
+  }
+}

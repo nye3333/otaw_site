@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Owain Williams</title>
+    <meta name="description" content="Interactive geometric group theory tools by Owain Williams.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="projects-page">
+    <div class="video-bg" aria-hidden="true">
+        <video class="bg-video" preload="metadata" playsinline autoplay loop muted
+               src="./cayley_F2.mp4"></video>
+    </div>
+
+    <header class="site-header">
+        <h1 class="site-title">Owain Williams</h1>
+        <p class="site-subtitle">PhD Student, Cambridge</p>
+        <nav class="site-nav" aria-label="Primary">
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./research.html">Research</a></li>
+                <li><a href="./projects.html" aria-current="page">Projects</a></li>
+                <li><a href="./other.html">Other</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        <section class="content-section" aria-labelledby="projects-heading">
+            <h2 id="projects-heading">Projects</h2>
+            <p>
+                Below are three interactive tools used in my geometric group theory work:
+                finite-depth balls of free groups in 3D, Stallings folding on labelled roses, and line-pattern pictures for cyclic subgroups of F<sub>2</sub>.
+            </p>
+        </section>
+
+        <section id="project-infinite" class="content-section project-tool" aria-labelledby="project-infinite-title">
+            <h2 id="project-infinite-title">Infinite Free-Group Cayley Graphs</h2>
+            <p>
+                Explore finite-depth balls of F<sub>2</sub> or F<sub>3</sub> as forced-directed graphs; tune depth and link visibility from the on-canvas controls.
+            </p>
+            <div class="project-tool-frame-wrap">
+                <div id="project-infinite-mount" class="project-tool-mount"></div>
+            </div>
+        </section>
+
+        <section id="project-whitehead" class="content-section project-tool" aria-labelledby="project-whitehead-title">
+            <h2 id="project-whitehead-title">Whitehead Folding</h2>
+            <p>
+                Enter one reduced word per petal for ranks 2–5 and step through deterministic Stallings folds to quotient graphs (standard rose when immersion succeeds).
+            </p>
+            <div class="project-tool-frame-wrap project-tool-frame-wrap--tall">
+                <div id="project-whitehead-mount" class="project-tool-mount project-tool-mount--whitehead">
+                    <div id="whitehead-panel">
+                        <div class="whitehead-controls">
+                            <label for="whitehead-rank">Rank <code>n</code></label>
+                            <select id="whitehead-rank"></select>
+                            <button type="button" id="whitehead-run">Run folds</button>
+                            <button type="button" id="whitehead-prev">Previous</button>
+                            <button type="button" id="whitehead-next">Next</button>
+                            <button type="button" id="whitehead-play">Play</button>
+                        </div>
+                        <div id="whitehead-words"></div>
+                        <div id="whitehead-status"></div>
+                        <div id="whitehead-step"></div>
+                        <div id="whitehead-diagnostic"></div>
+                        <div id="whitehead-figure-wrap">
+                            <svg
+                                id="whitehead-svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="960"
+                                height="560"
+                                role="img"
+                                aria-label="Current folded graph state"
+                            ></svg>
+                        </div>
+                        <h3 class="whitehead-log-heading">Fold log</h3>
+                        <ol id="whitehead-log"></ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="project-line-pattern" class="content-section project-tool" aria-labelledby="project-line-pattern-title">
+            <h2 id="project-line-pattern-title">Line Patterns in F<sub>2</sub></h2>
+            <p>
+                Truncate the Cayley tree for ⟨a,b⟩ at chosen depth, shade cosets of ⟨w⟩, inspect local Whitehead graphs at vertices, and optionally splice along intervals between two vertices.
+            </p>
+            <div class="project-tool-frame-wrap project-tool-frame-wrap--tall">
+                <div id="project-f2-mount" class="project-tool-mount project-tool-mount--f2">
+                    <div id="f2-tree-panel">
+                        <div class="f2-controls">
+                            <label for="f2-word-input">Subgroup generator <code>w</code></label>
+                            <input type="text" id="f2-word-input" spellcheck="false" autocomplete="off" placeholder="ab" value="a"/>
+                            <label for="f2-depth-slider">Tree depth <span id="f2-depth-value">4</span></label>
+                            <input type="range" id="f2-depth-slider" min="1" max="8" value="4"/>
+                            <label for="f2-power-slider">Power bound <code>|k| ≤</code> <span id="f2-power-value">18</span></label>
+                            <input type="range" id="f2-power-slider" min="1" max="96" value="18"/>
+                            <label for="f2-splice-toggle">Interval splice mode</label>
+                            <input type="checkbox" id="f2-splice-toggle"/>
+                        </div>
+                        <div id="f2-warning"></div>
+                        <div id="f2-canvas-wrap">
+                            <canvas id="f2-canvas" width="720" height="520"></canvas>
+                            <div id="f2-whitehead-panel" style="display:none">
+                                <h3>Local Whitehead graph</h3>
+                                <p id="f2-whitehead-caption"></p>
+                                <svg id="f2-whitehead-svg" xmlns="http://www.w3.org/2000/svg" width="140" height="140" aria-hidden="true"></svg>
+                            </div>
+                            <div id="f2-splice-panel" style="display:none">
+                                <h3>Spliced Whitehead graph on interval</h3>
+                                <p id="f2-splice-caption"></p>
+                                <svg id="f2-splice-svg" xmlns="http://www.w3.org/2000/svg" width="220" height="220" aria-hidden="true"></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Owain Williams</p>
+    </footer>
+
+    <script src="./script.js"></script>
+    <script type="module" src="./src/projects/main.ts"></script>
+</body>
+</html>
