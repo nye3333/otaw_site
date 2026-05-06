@@ -1,40 +1,45 @@
 # Deploying `otaw_site` (GitHub Pages)
 
-This site uses [Vite](https://vitejs.dev/) for the **Projects** page only (`projects.html`), which bundles the Cayley tools directly (no iframes).
+This site uses [Vite](https://vitejs.dev/) for the **Projects** page (`projects.html`), which bundles TypeScript (Three.js, Cayley tools, etc.). **Serving the raw repo root on Pages will look broken**: unbuilt `projects.html` points at `./src/projects/main.ts`, which browsers cannot run.
 
-## One-time setup
+Production must serve the **`dist/`** folder after `npm run build`.
+
+## Automatic deploy (recommended)
+
+The workflow [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) builds and publishes **`dist/`** on every push to **`main`**.
+
+1. Merge your feature branch into `main`.
+2. Repo **Settings → Pages → Build and deployment**: set **Source** to **GitHub Actions** (not “Deploy from a branch” pointing at repo root).
+3. Push to `main`; check **Actions** for the run. The site will be at  
+   `https://nye3333.github.io/otaw_site/`  
+   (including `/otaw_site/projects.html`).
+
+## Local preview (matches GitHub Pages)
+
+From the repo root, with [Node.js](https://nodejs.org/) installed:
 
 ```bash
 cd "/path/to/otaw_site"
 npm install
-```
-
-## Build
-
-```bash
 npm run build
+npm run preview -- --host 127.0.0.1 --port 4174
 ```
 
-Output goes to `dist/`. `vite.config.ts` sets `base: '/otaw_site/'` so asset URLs match  
-`https://nye3333.github.io/otaw_site/`.
+Then open:
 
-## Publish
+- **Home:** [http://127.0.0.1:4174/otaw_site/](http://127.0.0.1:4174/otaw_site/)
+- **Projects:** [http://127.0.0.1:4174/otaw_site/projects.html](http://127.0.0.1:4174/otaw_site/projects.html)
 
-Configure GitHub Pages to serve the contents of **`dist/`** on your `main` branch (or upload `dist/` to the Pages branch your repo uses).  
-Do **not** serve the raw repo root without building — `projects.html` needs the hashed JS/CSS from `dist/`.
+`vite.config.ts` sets `base: '/otaw_site/'`, so the preview URL **must** include the `/otaw_site/` prefix.
 
-## Local preview (matches production paths)
-
-```bash
-npm run preview
-```
-
-Open the printed URL and navigate to `/otaw_site/projects.html` (Vite will respect `base`).
-
-## Local development
+## Local development (hot reload)
 
 ```bash
 npm run dev
 ```
 
-Then open `http://localhost:5173/otaw_site/projects.html` (note the `/otaw_site` prefix).
+Open `http://localhost:5173/otaw_site/projects.html`.
+
+## Manual publish (without Actions)
+
+Build locally, then upload only the contents of **`dist/`** to whatever host backs Pages (e.g. `gh-pages` branch whose root equals `dist/`). Do **not** publish the repository root as the site root unless you only need static HTML with no Vite bundle.
