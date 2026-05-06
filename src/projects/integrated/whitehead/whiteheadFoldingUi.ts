@@ -14,7 +14,7 @@ import {
 type WhiteheadElements = {
   rankSelect: HTMLSelectElement;
   wordsContainer: HTMLElement;
-  randomWordsButton: HTMLButtonElement;
+  randomWordsButton: HTMLButtonElement | null;
   runButton: HTMLButtonElement;
   prevButton: HTMLButtonElement;
   nextButton: HTMLButtonElement;
@@ -387,7 +387,7 @@ export function bindWhiteheadFoldingPage(elements: WhiteheadElements): void {
     rerender(elements, state);
   });
 
-  elements.randomWordsButton.addEventListener("click", () => {
+  elements.randomWordsButton?.addEventListener("click", () => {
     stopPlayback(state);
     state.run = null;
     state.stateIndex = 0;
@@ -463,7 +463,6 @@ export function setupWhiteheadPageFromDocument(
   if (
     !(rankSelect instanceof HTMLSelectElement) ||
     !(wordsContainer instanceof HTMLElement) ||
-    !(randomWordsButton instanceof HTMLButtonElement) ||
     !(runButton instanceof HTMLButtonElement) ||
     !(prevButton instanceof HTMLButtonElement) ||
     !(nextButton instanceof HTMLButtonElement) ||
@@ -488,7 +487,8 @@ export function setupWhiteheadPageFromDocument(
   bindWhiteheadFoldingPage({
     rankSelect,
     wordsContainer,
-    randomWordsButton,
+    randomWordsButton:
+      randomWordsButton instanceof HTMLButtonElement ? randomWordsButton : null,
     runButton,
     prevButton,
     nextButton,
