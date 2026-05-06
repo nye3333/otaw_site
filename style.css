@@ -369,10 +369,34 @@ body {
         gap: 0.5rem;
     }
 
+    /* Keep floats visible on narrow viewports; hiding made the site look “broken” with no media. */
     .floating-videos {
-        display: none;
         opacity: 1;
         transition: none;
+    }
+
+    .fv-1 {
+        width: min(140px, 38vw);
+        top: 8%;
+        right: 6%;
+    }
+
+    .fv-2 {
+        width: min(112px, 34vw);
+        top: 28%;
+        right: 8%;
+    }
+
+    .fv-3 {
+        width: min(160px, 44vw);
+        top: 52%;
+        right: 5%;
+    }
+
+    .fv-4 {
+        width: min(100px, 30vw);
+        top: 78%;
+        right: 10%;
     }
 }
 

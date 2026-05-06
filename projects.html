@@ -16,6 +16,55 @@
                src="./cayley_F2.mp4"></video>
     </div>
 
+    <div id="otaw-floating-videos" class="floating-videos is-revealed" aria-hidden="true"
+         data-float-pos-key="otaw_site_float_fig_positions_projects_v1">
+        <figure class="float-fig fv-1">
+            <video class="float-vid" draggable="false" preload="auto" playsinline autoplay loop muted
+                   src="./IMG_0253.mp4"></video>
+            <figcaption>Escher Installation @ MUDEC, Milan</figcaption>
+        </figure>
+        <figure class="float-fig fv-2">
+            <video class="float-vid" draggable="false" preload="auto" playsinline autoplay loop muted
+                   src="./IMG_2209.mp4"></video>
+            <figcaption>Swirl City</figcaption>
+        </figure>
+        <figure class="float-fig fv-3">
+            <video class="float-vid" draggable="false" preload="auto" playsinline autoplay loop muted
+                   src="./IMG_5499.mp4"></video>
+            <figcaption>Double Virgo @ La Botanique, Brussels</figcaption>
+        </figure>
+    </div>
+    <script>
+    (function () {
+        var host = document.getElementById('otaw-floating-videos');
+        if (!host) return;
+        var key = host.getAttribute('data-float-pos-key') || 'otaw_site_float_fig_positions';
+        var minStored = parseInt(host.getAttribute('data-float-min-stored-slot') || '1', 10);
+        if (!isFinite(minStored) || minStored < 1) minStored = 1;
+        var data;
+        try {
+            data = JSON.parse(localStorage.getItem(key) || 'null');
+        } catch (e) { return; }
+        if (!data || typeof data !== 'object') return;
+        host.querySelectorAll('.float-fig').forEach(function (fig) {
+            var id = null;
+            fig.classList.forEach(function (c) {
+                if (/^fv-\d+$/.test(c)) id = c;
+            });
+            if (!id || data[id] == null) return;
+            var slotNum = parseInt(id.slice(3), 10);
+            if (!isFinite(slotNum) || slotNum < minStored) return;
+            var p = data[id];
+            var left = Number(p.left);
+            var top = Number(p.top);
+            if (!isFinite(left) || !isFinite(top)) return;
+            fig.style.left = left + 'px';
+            fig.style.top = top + 'px';
+            fig.style.right = 'auto';
+        });
+    })();
+    </script>
+
     <header class="site-header">
         <h1 class="site-title">Owain Williams</h1>
         <p class="site-subtitle">PhD Student, Cambridge</p>
