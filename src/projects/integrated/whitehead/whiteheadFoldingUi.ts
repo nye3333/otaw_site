@@ -7,12 +7,14 @@ import {
   WHITEHEAD_MAX_RANK,
   WHITEHEAD_MIN_RANK,
   labelToString,
+  randomUnimodularPetalWords,
   runWhiteheadFolding,
 } from "./whiteheadFolding";
 
 type WhiteheadElements = {
   rankSelect: HTMLSelectElement;
   wordsContainer: HTMLElement;
+  randomWordsButton: HTMLButtonElement;
   runButton: HTMLButtonElement;
   prevButton: HTMLButtonElement;
   nextButton: HTMLButtonElement;
@@ -385,6 +387,21 @@ export function bindWhiteheadFoldingPage(elements: WhiteheadElements): void {
     rerender(elements, state);
   });
 
+  elements.randomWordsButton.addEventListener("click", () => {
+    stopPlayback(state);
+    state.run = null;
+    state.stateIndex = 0;
+    const rank = parseInt(elements.rankSelect.value, 10);
+    const words = randomUnimodularPetalWords(rank);
+    const inputs = currentWordInputs(elements.wordsContainer);
+    for (let i = 0; i < words.length; i++) {
+      const row = inputs[i];
+      if (row) row.value = words[i] ?? "";
+    }
+    elements.log.innerHTML = "";
+    rerender(elements, state);
+  });
+
   elements.runButton.addEventListener("click", () => {
     stopPlayback(state);
     runFromInputs(elements, state);
@@ -432,6 +449,7 @@ export function setupWhiteheadPageFromDocument(
 ): void {
   const rankSelect = root.querySelector("#whitehead-rank");
   const wordsContainer = root.querySelector("#whitehead-words");
+  const randomWordsButton = root.querySelector("#whitehead-random-words");
   const runButton = root.querySelector("#whitehead-run");
   const prevButton = root.querySelector("#whitehead-prev");
   const nextButton = root.querySelector("#whitehead-next");
@@ -445,6 +463,7 @@ export function setupWhiteheadPageFromDocument(
   if (
     !(rankSelect instanceof HTMLSelectElement) ||
     !(wordsContainer instanceof HTMLElement) ||
+    !(randomWordsButton instanceof HTMLButtonElement) ||
     !(runButton instanceof HTMLButtonElement) ||
     !(prevButton instanceof HTMLButtonElement) ||
     !(nextButton instanceof HTMLButtonElement) ||
@@ -469,6 +488,7 @@ export function setupWhiteheadPageFromDocument(
   bindWhiteheadFoldingPage({
     rankSelect,
     wordsContainer,
+    randomWordsButton,
     runButton,
     prevButton,
     nextButton,
