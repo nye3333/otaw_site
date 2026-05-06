@@ -4,6 +4,8 @@ This site uses [Vite](https://vitejs.dev/) for the **Projects** page (`projects.
 
 Production must serve the **`dist/`** folder after `npm run build`.
 
+Site media (background and floating clips, `other_media/`, etc.) lives under **`public/`** so Vite copies it into **`dist/`** with the same URLs your HTML already uses.
+
 ## Automatic deploy (recommended)
 
 The workflow [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) builds and publishes **`dist/`** on every push to **`main`**.
